@@ -1,0 +1,39 @@
+:root {
+  --point-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  width: 100vw;
+  height: 100vh;
+  background: #696969;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-board {
+  position: relative;
+  display: flex;
+  background: white;
+}
+
+.point {
+  width: var(--point-size);
+  height: var(--point-size);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.snake .point {
+  border-radius: 50%;
+}
+
+.message {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
