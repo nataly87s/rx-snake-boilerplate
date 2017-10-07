@@ -15,5 +15,46 @@ import { candy$, players$, onSnakeEat, onSnakeMove, onSnakeDied } from './utils/
  * @param {function} clearMessage - clears the message from the board
  */
 export default function (gameSize, displaySnake, displayCandy, displayPlayers, displayMessage, clearMessage) {
+  candy$.subscribe(displayCandy);
+  players$.subscribe(displayPlayers);
 
+  const keyDown$ = Observable.fromEvent(document, 'keydown').share();
+
+  const start$ = keyDown$.filter(e => e.key === keyCodes.Enter)
+    .startWith(1);
+
+  function startGame() {
+    const directions$ = keyDown$.map(toDirection)
+      .filter(d => d !== null);
+
+    const directionTicks$ = Observable.interval(80)
+      .withLatestFrom(directions$, (_, direction) => direction)
+      .scan((prev, next) => isLegalMove(prev, next) ? next : prev);
+
+    const initialSnake = new Array(5).fill(Point.random(gameSize));
+
+    const snake$ = directionTicks$
+      .scan((point, direction) => point.move(direction).wrap(gameSize), initialSnake[0])
+      .withLatestFrom(candy$, (nextPoint, candy) => nextPoint.tryEat(candy))
+      .scan((snake, nextPoint) => {
+        if (!nextPoint.hasEaten) snake = snake.slice(0, -1);
+        return [nextPoint, ...snake];
+      }, initialSnake)
+      .do(snake => snake[0].hasEaten && onSnakeEat())
+      .takeWhile(snake => !detectCollision(snake[0], snake.slice(1)))
+      .withLatestFrom(players$, (snake, players) => [snake, players])
+      .takeWhile(([snake, players]) => players.every(player => !detectCollision(snake[0], player)))
+      .map(([snake]) => snake)
+      .do(onSnakeMove)
+      .startWith(initialSnake);
+
+    return snake$
+      .finally(onSnakeDied)
+      .finally(() => displayMessage('GAME ENDED'));
+  }
+
+  start$
+    .do(clearMessage)
+    .exhaustMap(startGame)
+    .subscribe(displaySnake);
 }
