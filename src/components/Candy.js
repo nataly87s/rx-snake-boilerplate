@@ -8,7 +8,7 @@ const Candy = withLocation(({ dispatch, ...props }) => <img src={candy} alt="" {
 
 Candy.displayName = 'Candy';
 Candy.propTypes = {
-  location: pointType.isRequired,
+  location: pointType,
 };
 
 export default connect(state => ({ location: state.candy }))(Candy);
