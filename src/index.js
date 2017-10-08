@@ -13,13 +13,15 @@ const gameSize = {
 };
 
 const store = configureStore();
-const dispatch = type => payload => store.dispatch({type, payload});
+const set = type => payload => store.dispatch({type, payload});
+const clear = type => () => store.dispatch({type});
 game(
   gameSize,
-  dispatch(actions.SET_SNAKE),
-  dispatch(actions.SET_CANDY),
-  dispatch(actions.SET_PLAYERS),
-  dispatch(actions.SET_MESSAGE),
+  set(actions.SET_SNAKE),
+  set(actions.SET_CANDY),
+  set(actions.SET_PLAYERS),
+  set(actions.SET_MESSAGE),
+  clear(actions.SET_MESSAGE),
 );
 
 ReactDOM.render(

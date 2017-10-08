@@ -17,7 +17,7 @@ const candyRef = firebase.database().ref('meetup/candy');
 export const candy$ = new ReplaySubject(1);
 candyRef.on('value', x => candy$.next(x.val()));
 
-export function onNextCandy({ x, y }) {
+export function onCandyChanged({ x, y }) {
   candyRef.set({ x, y });
 }
 
@@ -38,7 +38,10 @@ playersRef.on('value', (x) => {
   players$.next(players);
 });
 
-export function onNextSnake(snake) {
-  if (!snake) snakeRef.remove();
-  else snakeRef.set(JSON.stringify(snake));
+export function onSnakeChanged(snake) {
+  snakeRef.set(JSON.stringify(snake));
+}
+
+export function onSnakeDied() {
+  snakeRef.remove();
 }

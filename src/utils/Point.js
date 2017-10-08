@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 export const pointType = PropTypes.shape({
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
-  belly: PropTypes.bool,
+  hasEaten: PropTypes.bool,
 });
 
 export const pointSize = 16;
@@ -15,10 +15,10 @@ function wrap(num, to) {
 }
 
 export default class Point {
-  constructor(x, y, belly) {
+  constructor(x, y, hasEaten) {
     this.x = x;
     this.y = y;
-    this.belly = belly;
+    this.hasEaten = hasEaten;
   }
 
   static random({ width, height }) {
@@ -33,7 +33,7 @@ export default class Point {
     return new Point(wrap(this.x, width), wrap(this.y, height));
   }
 
-  withBelly() {
+  eat() {
     return new Point(this.x, this.y, true);
   }
 
