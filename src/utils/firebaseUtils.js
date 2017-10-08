@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 import { ReplaySubject } from 'rxjs';
+import gameSize from './gameSize';
+import Point from './Point';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB83-L7YE-Jwo_TOqnO9zBCOTDFZRIe3s0',
@@ -16,10 +18,6 @@ firebase.auth().signInAnonymously().catch(console.error);
 const candyRef = firebase.database().ref('meetup/candy');
 export const candy$ = new ReplaySubject(1);
 candyRef.on('value', x => candy$.next(x.val()));
-
-export function onCandyChanged({ x, y }) {
-  candyRef.set({ x, y });
-}
 
 const playersRef = firebase.database().ref('meetup/players');
 const snakeRef = playersRef.push();
@@ -38,8 +36,16 @@ playersRef.on('value', (x) => {
   players$.next(players);
 });
 
-export function onSnakeChanged(snake) {
+export function onSnakeMove(snake) {
   snakeRef.set(JSON.stringify(snake));
+}
+
+function pick(props, obj) {
+  return props.reduce((acc, prop) => ({ ...acc, [prop]: obj[prop] }), {});
+}
+
+export function onSnakeEat() {
+  candyRef.set(pick(['x', 'y'], Point.random(gameSize)));
 }
 
 export function onSnakeDied() {

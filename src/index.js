@@ -3,14 +3,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configure';
 import actions from './store/actions';
+import gameSize from './utils/gameSize';
 import game from './game';
 import GameBoard from './GameBoard';
 import './index.css';
-
-const gameSize = {
-  width: 48,
-  height: 27,
-};
 
 const store = configureStore();
 const set = type => payload => store.dispatch({type, payload});
