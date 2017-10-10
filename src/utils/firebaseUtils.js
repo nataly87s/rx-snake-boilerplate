@@ -24,7 +24,7 @@ const snakeRef = playersRef.push();
 snakeRef.onDisconnect().remove();
 
 export const players$ = new ReplaySubject(1);
-playersRef.on('value', (x) => {
+playersRef.limitToFirst(10).on('value', (x) => {
   if (!x.exists()) {
     players$.next([]);
     return;
@@ -36,6 +36,10 @@ playersRef.on('value', (x) => {
   players$.next(players);
 });
 
+/**
+ * Notifies the server of the snakes new location
+ * @param {Point[]} snake
+ */
 export function onSnakeMove(snake) {
   snakeRef.set(JSON.stringify(snake));
 }
@@ -44,10 +48,17 @@ function pick(props, obj) {
   return props.reduce((acc, prop) => ({ ...acc, [prop]: obj[prop] }), {});
 }
 
+/**
+ * Notifies the server that the snake just ate a candy
+ * As a result the server will spawn a new candy
+ */
 export function onSnakeEat() {
   candyRef.set(pick(['x', 'y'], Point.random(gameSize)));
 }
 
+/**
+ * Notifies the server that the snake died
+ */
 export function onSnakeDied() {
   snakeRef.remove();
 }
