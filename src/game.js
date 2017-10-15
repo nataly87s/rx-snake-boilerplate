@@ -20,9 +20,6 @@ export default function (gameSize, displaySnake, displayCandy, displayPlayers, d
 
   const keyDown$ = Observable.fromEvent(document, 'keydown').share();
 
-  const start$ = keyDown$.filter(e => e.key === keyCodes.Enter)
-    .startWith(1);
-
   function startGame() {
     const directions$ = keyDown$.map(toDirection)
       .filter(d => d !== null);
@@ -42,19 +39,24 @@ export default function (gameSize, displaySnake, displayCandy, displayPlayers, d
       }, initialSnake)
       .do(snake => snake[0].hasEaten && onSnakeEat())
       .takeWhile(snake => !detectCollision(snake[0], snake.slice(1)))
-      .withLatestFrom(players$, (snake, players) => [snake, players])
+      .withLatestFrom(players$)
       .takeWhile(([snake, players]) => players.every(player => !detectCollision(snake[0], player)))
       .map(([snake]) => snake)
       .do(onSnakeMove)
-      .startWith(initialSnake);
+      .startWith(initialSnake)
+      .do(displaySnake);
 
     return snake$
       .finally(onSnakeDied)
       .finally(() => displayMessage('GAME ENDED'));
   }
 
-  start$
-    .do(clearMessage)
-    .exhaustMap(startGame)
-    .subscribe(displaySnake);
+  const restart$ = keyDown$.filter(e => e.key === keyCodes.Enter)
+    .first()
+    .ignoreElements()
+    .finally(clearMessage);
+
+  Observable.concat(Observable.defer(startGame), restart$)
+    .repeat()
+    .subscribe();
 }
