@@ -4,13 +4,16 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
-    "firebase": "^4.5.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-redux": "^5.0.6",
-    "react-scripts": "1.0.13",
-    "redux": "^3.7.2",
-    "rxjs": "^5.4.3"
+    "firebase": "^5.0.4",
+    "ramda": "^0.25.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.4",
+    "recompose": "^0.27.1",
+    "redux": "^4.0.0",
+    "rxjs": "^6.2.0",
+    "rxjs-compat": "^6.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

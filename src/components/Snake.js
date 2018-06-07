@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { pointType } from '../utils/Point';
 import { MAIN_COLOR } from '../resources/colors';
 import withLocation from './withLocation';
 
@@ -13,7 +11,7 @@ const Point = withLocation(({ color, style, ...props }) => (
 ));
 Point.displayName = 'Point';
 
-export const Snake = ({ shape, color }) => (
+export const Snake = ({ shape = [], color = MAIN_COLOR }) => (
   <div className="snake">
     {
       shape.map((location, key) => ({ key, color, location })).map(props => <Point {...props}/>)
@@ -21,16 +19,6 @@ export const Snake = ({ shape, color }) => (
   </div>
 );
 
-export const snakeType = PropTypes.arrayOf(pointType);
+const enhance = connect(state => ({ shape: state.snake }));
 
-Snake.propTypes = {
-  shape: snakeType,
-  color: PropTypes.string,
-};
-
-Snake.defaultProps = {
-  color: MAIN_COLOR,
-  shape: [],
-};
-
-export default connect(state => ({ shape: state.snake }))(Snake);
+export default enhance(Snake);

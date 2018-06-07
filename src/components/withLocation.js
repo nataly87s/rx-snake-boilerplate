@@ -1,5 +1,6 @@
-import React from 'react';
 import classNames from 'classnames';
+import { mapProps, branch, renderNothing } from 'recompose';
+import { prop } from 'ramda';
 import { pointSize } from '../utils/Point';
 
 const mapStyleToProps = ({ style, location: { x, y, hasEaten }, className, ...props }) => ({
@@ -11,4 +12,4 @@ const mapStyleToProps = ({ style, location: { x, y, hasEaten }, className, ...pr
   },
 });
 
-export default Component => props => props.location ? <Component {...mapStyleToProps(props)} /> : null;
+export default branch(prop('location'), mapProps(mapStyleToProps), renderNothing);

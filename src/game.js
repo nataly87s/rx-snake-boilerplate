@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import keyCodes from './utils/keyCodes';
 import Point from './utils/Point';
 import { toDirection, isLegalMove } from './utils/directionUtils';

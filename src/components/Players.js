@@ -1,23 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { pick } from 'ramda';
 import { COLORS } from '../resources/colors';
-import { Snake, snakeType } from './Snake';
+import { Snake } from './Snake';
 
-const Players = ({ players }) => (
-  <div>
+const Players = ({ players = [] }) => (
+  <Fragment>
     {
       players.map((snake, key) => <Snake key={key} shape={snake} color={COLORS[key % COLORS.length]}/>)
     }
-  </div>
+  </Fragment>
 );
 
-Players.propTypes = {
-  players: PropTypes.arrayOf(snakeType),
-};
+const enhance = connect(pick(['players']));
 
-Players.defaultProps = {
-  players: []
-};
-
-export default connect(({ players }) => ({ players }))(Players);
+export default enhance(Players);

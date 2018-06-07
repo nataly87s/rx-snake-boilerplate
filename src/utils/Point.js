@@ -1,11 +1,3 @@
-import PropTypes from 'prop-types';
-
-export const pointType = PropTypes.shape({
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  hasEaten: PropTypes.bool,
-});
-
 export const pointSize = 16;
 
 function wrap(num, to) {

@@ -1,5 +1,8 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import { ReplaySubject } from 'rxjs';
+import { pick } from 'ramda';
 import gameSize from './gameSize';
 import Point from './Point';
 
@@ -24,6 +27,7 @@ const snakeRef = playersRef.push();
 snakeRef.onDisconnect().remove();
 
 export const players$ = new ReplaySubject(1);
+
 playersRef.limitToFirst(10).on('value', (x) => {
   if (!x.exists()) {
     players$.next([]);
@@ -32,7 +36,8 @@ playersRef.limitToFirst(10).on('value', (x) => {
 
   const players = Object.entries(x.val())
     .filter(([key]) => key !== snakeRef.key)
-    .reduce((acc, [_, value]) => ([...acc, JSON.parse(value)]), []);
+    .map(([_, value]) => JSON.parse(value));
+
   players$.next(players);
 });
 
@@ -42,10 +47,6 @@ playersRef.limitToFirst(10).on('value', (x) => {
  */
 export function onSnakeMove(snake) {
   snakeRef.set(JSON.stringify(snake));
-}
-
-function pick(props, obj) {
-  return props.reduce((acc, prop) => ({ ...acc, [prop]: obj[prop] }), {});
 }
 
 /**

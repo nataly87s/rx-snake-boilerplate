@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import candy from '../resources/candy.png';
-import { pointType } from '../utils/Point';
 import withLocation from './withLocation';
 
-const Candy = withLocation(({ dispatch, ...props }) => <img src={candy} alt="" {...props}/>);
+const Candy = ({ dispatch, ...props }) => <img src={candy} alt="" {...props}/>;
 
-Candy.displayName = 'Candy';
-Candy.propTypes = {
-  location: pointType,
-};
+const enhance = compose(
+  connect(state => ({ location: state.candy })),
+  withLocation,
+);
 
-export default connect(state => ({ location: state.candy }))(Candy);
+export default enhance(Candy);
