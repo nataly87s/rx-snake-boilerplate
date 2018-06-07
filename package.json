@@ -13,7 +13,11 @@
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3"
   },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
   "scripts": {
+    "example": "nodemon ./examples.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"

@@ -63,3 +63,17 @@ export function onSnakeEat() {
 export function onSnakeDied() {
   snakeRef.remove();
 }
+
+export function createSnakeRef() {
+  const snakeRef = playersRef.push();
+  snakeRef.onDisconnect().remove();
+
+  return {
+    onSnakeMove(snake) {
+      snakeRef.set(JSON.stringify(snake));
+    },
+    onSnakeDied() {
+      snakeRef.remove();
+    },
+  };
+}

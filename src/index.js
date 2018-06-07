@@ -6,6 +6,7 @@ import { snake$, candy$, players$, message$ } from './context';
 import gameSize from './utils/gameSize';
 import game from './game';
 import GameBoard from './GameBoard';
+import Example from './components/Example';
 import './index.css';
 
 setObservableConfig({fromESObservable: from})
@@ -20,6 +21,9 @@ game(
 );
 
 ReactDOM.render(
-    <GameBoard gameSize={gameSize}/>,
+  <div className="wrapper">
+    <GameBoard gameSize={gameSize}/>
+    <Example/>
+  </div>,
   document.getElementById('root'),
 );

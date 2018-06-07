@@ -37,3 +37,20 @@ body {
   margin: auto;
   text-align: center;
 }
+
+.example {
+  --font-size: 24px;
+  font-size: var(--font-size);
+}
+
+.example button {
+  font-size: var(--font-size);
+  margin: 0.5em;
+}
+
+.example pre {
+  color: white;
+  min-height: 5em;
+  border: 2px solid white;
+  margin: 0.5em 0;
+}
