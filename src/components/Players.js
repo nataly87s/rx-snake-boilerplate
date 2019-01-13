@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
-import { pick } from 'ramda';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { mapPropsStream } from 'recompose';
 import { COLORS } from '../resources/colors';
 import { Snake } from './Snake';
+
+export const players$ = new BehaviorSubject();
 
 const Players = ({ players = [] }) => (
   <Fragment>
@@ -12,6 +14,6 @@ const Players = ({ players = [] }) => (
   </Fragment>
 );
 
-const enhance = connect(pick(['players']));
+const enhance = mapPropsStream(props$ => combineLatest(props$, players$, (props, players) => ({...props, players})));
 
 export default enhance(Players);

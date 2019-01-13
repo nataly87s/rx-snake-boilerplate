@@ -5,6 +5,7 @@ import { setObservableConfig } from 'recompose';
 import { Provider } from 'react-redux';
 import {snake$} from './components/Snake';
 import {candy$} from './components/Candy';
+import {players$} from './components/Players';
 import configureStore from './store/configure';
 import actions from './store/actions';
 import gameSize from './utils/gameSize';
@@ -21,7 +22,7 @@ game(
   gameSize,
   snake$.next.bind(snake$),
   candy$.next.bind(candy$),
-  set(actions.SET_PLAYERS),
+  players$.next.bind(players$),
   set(actions.SET_MESSAGE),
   clear(actions.SET_MESSAGE),
 );

@@ -2,7 +2,6 @@ import actions from './actions';
 import { assoc } from 'ramda';
 
 const actionToProp = {
-  [actions.SET_PLAYERS]: 'players',
   [actions.SET_MESSAGE]: 'message',
 };
 
