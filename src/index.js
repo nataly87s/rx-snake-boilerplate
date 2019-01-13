@@ -4,6 +4,7 @@ import { from } from 'rxjs';
 import { setObservableConfig } from 'recompose';
 import { Provider } from 'react-redux';
 import {snake$} from './components/Snake';
+import {candy$} from './components/Candy';
 import configureStore from './store/configure';
 import actions from './store/actions';
 import gameSize from './utils/gameSize';
@@ -19,7 +20,7 @@ const clear = type => () => store.dispatch({type});
 game(
   gameSize,
   snake$.next.bind(snake$),
-  set(actions.SET_CANDY),
+  candy$.next.bind(candy$),
   set(actions.SET_PLAYERS),
   set(actions.SET_MESSAGE),
   clear(actions.SET_MESSAGE),
