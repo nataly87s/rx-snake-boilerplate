@@ -1,11 +1,8 @@
 import React from 'react';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { mapPropsStream } from 'recompose';
-
-export const message$ = new BehaviorSubject();
+import { message$, withPropFromStream } from '../context';
 
 const Message = ({ message }) => <div className="message">{message}</div>;
 
-const enhance = mapPropsStream(props$ => combineLatest(props$, message$, (props, message) => ({...props, message})));
+const enhance = withPropFromStream('message', message$);
 
 export default enhance(Message);
