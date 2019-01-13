@@ -1,7 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { mapPropsStream } from 'recompose';
 import { MAIN_COLOR } from '../resources/colors';
 import withLocation from './withLocation';
+
+export const snake$ = new BehaviorSubject();
 
 const Point = withLocation(({ color, style, ...props }) => (
   <div
@@ -19,6 +22,6 @@ export const Snake = ({ shape = [], color = MAIN_COLOR }) => (
   </div>
 );
 
-const enhance = connect(state => ({ shape: state.snake }));
+const enhance = mapPropsStream(props$ => combineLatest(props$, snake$, (props, shape) => ({...props, shape})));
 
 export default enhance(Snake);

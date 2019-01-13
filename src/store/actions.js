@@ -1,6 +1,5 @@
 export default {
   SET_CANDY: 'SET_CANDY',
-  SET_SNAKE: 'SET_SNAKE',
   SET_PLAYERS: 'SET_PLAYERS',
   SET_MESSAGE: 'SET_MESSAGE',
 };
